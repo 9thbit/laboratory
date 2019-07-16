@@ -129,6 +129,8 @@ class Experiment(object):
         # execute control and exit if experiment is not enabled
         if not self.enabled():
             control = self._run_tested_func(**self._control)
+            if control.exception is not None:
+                raise control.exception
             return control.value
 
         # otherwise, let's wrap an executor around all of our functions and randomise the ordering
